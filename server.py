@@ -1,5 +1,5 @@
 import sqlite3
-from Ziggeo import Ziggeo
+# from Ziggeo import Ziggeo
 from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
@@ -7,18 +7,21 @@ from contextlib import closing
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
 
-ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
+# ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
 
 @app.route("/")
 def index():
     return render_template('index.html')
 
-@app.route("/newuser/", methods=['POST'])
+@app.route("/newuser", methods=['POST'])
 def new_user():
     name = request.form['name']
-    my_hash = request.form['hash']
-    r = g.db.execute('''INSERT INTO USERS (name, hash) \
-                  VALUES ('%s', '%s')''' % (name, my_hash))
+    my_hash = request.form['password']
+    email = request.form['email']
+    school = request.form['school']
+    prof = int(request.form['type'])
+    r = g.db.execute('''INSERT INTO USERS (name, hash, email, school, prof) \
+                  VALUES ('%s', '%s')''' % (name, my_hash, email, school, prof))
     # not safe at all
     g.db.commit()
     # result = g.db.execute("SELECT * FROM USERS")
@@ -28,9 +31,11 @@ def new_user():
 def classes(course=None):
     return render_template('class.html', ziggeo=ziggeo, course=course)
 
-@app.route("/login/", methods=['POST'])
-def login():
-    error = None
+@app.route("/signin", methods=['POST'])
+def signin():
+    email = request.form['email']
+    password = request.form['password']
+    # error = None
     return url_for('index')
 
 def converttoString(s):
@@ -53,9 +58,9 @@ def dashboard():
 def layout():
     return render_template('layout.html')
 
-@app.route("/signup")
+@app.route("/home")
 def signup():
-    return render_template('signup.html')
+    return render_template('home.html')
 
 # initializes DB
 def init_db():
