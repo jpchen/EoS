@@ -1,5 +1,5 @@
 drop table if exists users;
-drop table if exists videos;
+drop table if exists comments;
 drop table if exists courses;
 create table users (
   name text not null,
@@ -11,9 +11,11 @@ create table users (
 create table courses (
   id integer primary key autoincrement,
   name text not null,
-  size integer
+  cap integer
 )
-create table videos (
+create table comments (
   id integer primary key,
-  name text not null 
+  usr text not null,
+  time integer,
+  comm text not null 
 );
