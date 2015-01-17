@@ -3,6 +3,7 @@ from Ziggeo import Ziggeo
 from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
+import datetime
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
@@ -29,7 +30,7 @@ def new_user():
 
 @app.route("/class/<course>", methods=['GET'])
 def classes(course=None):
-    return render_template('class.html', ziggeo=ziggeo, course=course)
+    return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
 
 @app.route("/signin", methods=['POST'])
 def signin():
