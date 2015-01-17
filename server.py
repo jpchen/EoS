@@ -1,5 +1,5 @@
 import sqlite3
-from Ziggeo import Ziggeo
+# from Ziggeo import Ziggeo
 from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
@@ -8,7 +8,7 @@ import datetime
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
 
-ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
+# ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
 
 @app.route("/")
 def index():
@@ -94,6 +94,31 @@ def dashboard():
 @app.route("/layout")
 def layout():
     return render_template('layout.html')
+
+@app.route("/addcomment", methods=['POST'])
+def addcomment():
+    comment = request.form['commentText']
+    videoId = request.form['videoId']
+
+    if request.method == 'POST':
+        # r = g.db.execute('SELECT hash FROM USERS WHERE email= \"' + email + '\"')
+        # if r.fetchone()[0] == my_hash:
+        #     r2 = g.db.execute('SELECT * FROM USERS WHERE email= \"' + email + '\"')
+        #     session['email'] = email
+        #     info = r2.fetchone()
+        #     session['name'] = info[0]
+        #     session['school'] = info[3]
+        #     acct = info[4]
+        #     if acct == 1:
+        #         session['is_prof'] = 1
+        #         session['type'] = "Professor/TA"
+        #     else:
+        #         session['is_prof'] = 0
+        #         session['type'] = "Student"
+        #     flash('You were successfully logged in!')
+            return redirect(url_for('class'))
+    return redirect(url_for('index'))
+
 
 # initializes DB
 def init_db():
