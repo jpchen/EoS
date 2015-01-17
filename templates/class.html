@@ -16,15 +16,15 @@
       Record Here
   </div>
     <h1>Videos:</h1>
-  <div class="wall-of-videos-container" id="video">
-      <ziggeo ziggeo-video="daa6959af89cb0e39a6229ff5e173373"
+    {% for video in ziggeo.videos().index() %}
+    <div class="wall-of-videos-container" id="video">
+        <ziggeo ziggeo-video= {{ video['token'] }}
         ziggeo-width=320
         ziggeo-height=240
+        ziggeo-popup
         ziggeo-title="Testing"></ziggeo>
-      <ziggeo ziggeo-video="3907713ad551dfbbd30b92080d78ffd3"
-        ziggeo-width=320
-        ziggeo-height=240></ziggeo>
-  </div>
+    </div>
+    {% endfor %}
 
 </body>
 </html>
