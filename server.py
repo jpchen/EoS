@@ -1,10 +1,13 @@
 import sqlite3
+from Ziggeo import Ziggeo
 from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
+
+ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
 
 @app.route("/")
 def index():
@@ -23,7 +26,7 @@ def new_user():
 
 @app.route("/class/")
 def classes():
-    return render_template('class.html')
+    return render_template('class.html', ziggeo=ziggeo)
 
 @app.route("/login/", methods=['POST'])
 def login():
