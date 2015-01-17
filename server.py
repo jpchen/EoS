@@ -1,5 +1,5 @@
 import sqlite3
-# from Ziggeo import Ziggeo
+from Ziggeo import Ziggeo
 from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
@@ -7,7 +7,7 @@ from contextlib import closing
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
 
-# ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
+ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
 
 @app.route("/")
 def index():
@@ -21,11 +21,11 @@ def new_user():
     school = request.form['school']
     prof = int(request.form['type'])
     r = g.db.execute('''INSERT INTO USERS (name, hash, email, school, prof) \
-                  VALUES ('%s', '%s')''' % (name, my_hash, email, school, prof))
+                  VALUES ('%s', '%s', '%s', '%s', '%d')''' % (name, my_hash, email, school, prof))
     # not safe at all
     g.db.commit()
     # result = g.db.execute("SELECT * FROM USERS")
-    return "Successfully created account."
+    return render_template('dashboard.html')
 
 @app.route("/class/<course>", methods=['GET'])
 def classes(course=None):
@@ -34,9 +34,12 @@ def classes(course=None):
 @app.route("/signin", methods=['POST'])
 def signin():
     email = request.form['email']
-    password = request.form['password']
-    # error = None
-    return url_for('index')
+    my_hash = request.form['password']
+    if request.method == 'POST':
+        r = g.db.execute('SELECT hash FROM USERS WHERE email= \"' + email + '\"')
+        if r.fetchone()[0] == my_hash:
+            return redirect(url_for('dashboard'))
+    return redirect(url_for('index'))
 
 def converttoString(s):
     result = '/'
@@ -57,10 +60,6 @@ def dashboard():
 @app.route("/layout")
 def layout():
     return render_template('layout.html')
-
-@app.route("/home")
-def signup():
-    return render_template('home.html')
 
 # initializes DB
 def init_db():
