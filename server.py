@@ -21,6 +21,10 @@ def new_user():
     # result = g.db.execute("SELECT * FROM USERS")
     return "Successfully created account."
 
+@app.route("/class/")
+def classes():
+    return render_template('class.html')
+
 @app.route("/login/", methods=['POST'])
 def login():
     error = None
