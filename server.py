@@ -38,6 +38,18 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('index'))
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route("/layout")
+def layout():
+    return render_template('layout.html')
+
+@app.route("/signup")
+def signup():
+    return render_template('signup.html')
+
 # initializes DB
 def init_db():
     with closing(connect_db()) as db:

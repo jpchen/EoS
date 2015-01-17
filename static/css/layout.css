@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "Bebas";
+  src: url('../font/BebasNeueBook.ttf');
+}
+
+@font-face {
+  font-family: "BebasR";
+  src: url('../font/BebasNeueRegular.ttf');
+}
+
+body {
+  /*background-image: url(../static/logo.png);*/
+  font-family: "BebasR";
+}
+
+h1 {
+  font-family: "BebasR";
+}
+/*.button {
+  background-color: #B4C1E0;
+}
+.button:hover {
+  background-color: #8DA2D8;
+}
+.button:active {
+  background-color: #8DA2D8;
+}*/
