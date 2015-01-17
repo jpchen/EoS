@@ -3,6 +3,7 @@ from Ziggeo import Ziggeo
 from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
+import datetime
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
@@ -47,7 +48,6 @@ def signin():
         if r.fetchone()[0] == my_hash:
             r2 = g.db.execute('SELECT * FROM USERS WHERE email= \"' + email + '\"')
             session['email'] = email
-            print "HEREE!!"
             info = r2.fetchone()
             session['name'] = info[0]
             session['school'] = info[3]
@@ -75,7 +75,7 @@ def classes(course=None):
         flash("Please log in.")
         return redirect(url_for('index'))
     else:
-        return render_template('class.html', ziggeo=ziggeo, course=course)
+        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
 
 def converttoString(s):
     result = '/'

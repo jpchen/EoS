@@ -11,19 +11,25 @@
     <h2>Record Video:</h2>
   <div class="frame" id="record">
       <ziggeo ziggeo-width=320
-      ziggeo-height=240>
-              </ziggeo>
-      Record Here
+      ziggeo-height=240
+      ziggeo-title= {{ course }}>
+      </ziggeo>
+      Upload a video.
   </div>
     <h2>Videos:</h2>
     {% for video in ziggeo.videos().index() %}
-    <div class="wall-of-videos-container" id="video">
-        <ziggeo ziggeo-video= {{ video['token'] }}
-        ziggeo-width=320
-        ziggeo-height=240
-        ziggeo-popup
-        ziggeo-title="Testing"></ziggeo>
-    </div>
+      {% if video['title'] == course %}
+        <div class="wall-of-videos-container" id="video">
+            <ziggeo ziggeo-video= {{ video['token'] }}
+            ziggeo-width=320
+            ziggeo-height=240
+            ziggeo-popup
+            ziggeo-title="Testing"></ziggeo>
+            {% print datetime.datetime.fromtimestamp(video['created'] 
+                        ).strftime('%Y-%m-%d %H:%M:%S') %}
+            {% print "Duration: ", video['duration'] %}
+        </div>
+      {% endif %}
     {% endfor %}
 
 </body>
