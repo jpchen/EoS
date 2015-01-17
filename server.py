@@ -8,6 +8,7 @@ import datetime
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
 
+# My key, so don't you use this. seriously
 ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
 
 @app.route("/")
@@ -31,10 +32,10 @@ def new_user():
     session['name'] = name
     session['school'] = school
     if prof == 1:
-        session['is_prof'] = 1
+        session['is_prof'] = True
         session['type'] = "Professor/TA"
     else:
-        session['is_prof'] = 0
+        session['is_prof'] = False
         session['type'] = "Student"
     flash('You successfully created an account!')
     return redirect(url_for('dashboard'))
@@ -53,10 +54,10 @@ def signin():
             session['school'] = info[3]
             acct = info[4]
             if acct == 1:
-                session['is_prof'] = 1
+                session['is_prof'] = True
                 session['type'] = "Professor/TA"
             else:
-                session['is_prof'] = 0
+                session['is_prof'] = False
                 session['type'] = "Student"
             flash('You were successfully logged in!')
             return redirect(url_for('dashboard'))

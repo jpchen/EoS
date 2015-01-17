@@ -7,27 +7,44 @@
 
 </head>
 <body>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <div class="content">
+        <li><a href="/logout" class="button">Log Out</a></li>
+    </div>
+    {% if session.is_prof %}
     <h2>Record Video:</h2>
   <div class="frame" id="record">
-      <ziggeo ziggeo-width=320
-      ziggeo-height=240
-      ziggeo-title= {{ course }}>
-      </ziggeo>
-      Upload a video.
-  </div>
+          Name: <input type="text" id="description" placeholder="Add description">
+          <button onclick="myFunction()">Submit</button>
+          <script>
+              function myFunction() {
+                  var d = document.getElementById("description").value;
+                  var c = "{{ course }}";
+                  var zig=document.createElement('ziggeo');
+                  zig.setAttribute("ziggeo-description",String(d));
+                  zig.setAttribute("ziggeo-height",240);
+                  zig.setAttribute("ziggeo-width",320);
+                  zig.setAttribute("ziggeo-title",c);
+                  document.getElementById("upload").appendChild(zig);
+              }
+            </script>
+        </div>
+        <div id="upload">
+        </div>
+    {% endif %}
     <h2>Videos:</h2>
     {% for video in ziggeo.videos().index() %}
       {% if video['title'] == course %}
-        <div class="wall-of-videos-container" id="video">
+      <div class="wall-of-videos-container" id="video">
             <ziggeo ziggeo-video= {{ video['token'] }}
             ziggeo-width=320
             ziggeo-height=240
             ziggeo-popup
-            ziggeo-title="Testing"></ziggeo>
+            ></ziggeo>
             {% print datetime.datetime.fromtimestamp(video['created'] 
                         ).strftime('%Y-%m-%d %H:%M:%S') %}
             {% print "Duration: ", video['duration'] %}
+            <br>{% print video['description'] %}</br>
         </div>
       {% endif %}
     {% endfor %}

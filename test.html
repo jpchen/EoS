@@ -1,0 +1,26 @@
+<html>
+    <script type="text/javascript">
+            // Pre populated array of data
+                var myData = new Array();
+                    myData[1] = 'Some text';
+                        myData[2] = 'Some other text';
+                    </script>     
+                    <form id="example" name="example">
+                                <select id="selector" name="selector">
+                                                <option value="" selected></option>
+                                                            <option value=1>One</option>
+                                                                        <option value=2>Two</option>
+                                                                                </select>
+                                                                                        <br />
+                                                                                                <input type="text" value="" id="populateme" name="populateme" />
+                                                                                                    </form>
+
+                                                                                                        <script type="text/javascript">
+                                                                                                                    document.example.selector.onchange = updateText;
+
+                                                                                                                            function updateText() {
+                                                                                                                                          var obj_sel = document.example.selector;
+                                                                                                                                                    document.example.populateme.value = myData[obj_sel.value];
+                                                                                                                                                        }
+                                                                                                                                                            </script>
+    </html>
