@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Classes</title>
+    <h1>{{ course }}</h1>
   <link rel="stylesheet" href="//assets.ziggeo.com/css/ziggeo-betajs-player.min.css" />
   <script src="//assets.ziggeo.com/js/ziggeo-jquery-json2-betajs-player.min.js"></script>
   <script>ZiggeoApi.token = "61113f2c9913e0daecefe88965a37dac";</script>
@@ -8,14 +8,14 @@
 </head>
 <body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <h1>Record Video:</h1>
+    <h2>Record Video:</h2>
   <div class="frame" id="record">
       <ziggeo ziggeo-width=320
       ziggeo-height=240>
               </ziggeo>
       Record Here
   </div>
-    <h1>Videos:</h1>
+    <h2>Videos:</h2>
     {% for video in ziggeo.videos().index() %}
     <div class="wall-of-videos-container" id="video">
         <ziggeo ziggeo-video= {{ video['token'] }}

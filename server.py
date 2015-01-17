@@ -24,9 +24,9 @@ def new_user():
     # result = g.db.execute("SELECT * FROM USERS")
     return "Successfully created account."
 
-@app.route("/class/")
-def classes():
-    return render_template('class.html', ziggeo=ziggeo)
+@app.route("/class/<course>", methods=['GET'])
+def classes(course=None):
+    return render_template('class.html', ziggeo=ziggeo, course=course)
 
 @app.route("/login/", methods=['POST'])
 def login():
