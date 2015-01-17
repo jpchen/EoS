@@ -13,6 +13,7 @@ ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6
 def index():
     return render_template('index.html')
 
+# CREATE LOG IN AND OUT STUFF
 @app.route("/newuser", methods=['POST'])
 def new_user():
     name = request.form['name']
@@ -25,11 +26,17 @@ def new_user():
     # not safe at all
     g.db.commit()
     # result = g.db.execute("SELECT * FROM USERS")
-    return render_template('dashboard.html')
-
-@app.route("/class/<course>", methods=['GET'])
-def classes(course=None):
-    return render_template('class.html', ziggeo=ziggeo, course=course)
+    session['email'] = email
+    session['name'] = name
+    session['school'] = school
+    if prof == 1:
+        session['is_prof'] = 1
+        session['type'] = "Professor/TA"
+    else:
+        session['is_prof'] = 0
+        session['type'] = "Student"
+    flash('You successfully created an account!')
+    return redirect(url_for('dashboard'))
 
 @app.route("/signin", methods=['POST'])
 def signin():
@@ -38,8 +45,37 @@ def signin():
     if request.method == 'POST':
         r = g.db.execute('SELECT hash FROM USERS WHERE email= \"' + email + '\"')
         if r.fetchone()[0] == my_hash:
+            r2 = g.db.execute('SELECT * FROM USERS WHERE email= \"' + email + '\"')
+            session['email'] = email
+            print "HEREE!!"
+            info = r2.fetchone()
+            session['name'] = info[0]
+            session['school'] = info[3]
+            acct = info[4]
+            if acct == 1:
+                session['is_prof'] = 1
+                session['type'] = "Professor/TA"
+            else:
+                session['is_prof'] = 0
+                session['type'] = "Student"
+            flash('You were successfully logged in!')
             return redirect(url_for('dashboard'))
     return redirect(url_for('index'))
+
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    flash('You were logged out.')
+    return redirect(url_for('index'))
+
+
+@app.route("/class/<course>", methods=['GET'])
+def classes(course=None):
+    if not 'email' in session:
+        flash("Please log in.")
+        return redirect(url_for('index'))
+    else:
+        return render_template('class.html', ziggeo=ziggeo, course=course)
 
 def converttoString(s):
     result = '/'
@@ -47,15 +83,13 @@ def converttoString(s):
         result += str(i)+'/'
     return result
 
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    flash('You were logged out')
-    return redirect(url_for('index'))
-
 @app.route("/dashboard")
 def dashboard():
-    return render_template('dashboard.html')
+    if not 'email' in session:
+        flash("Please log in.")
+        return redirect(url_for('index'))
+    else:
+        return render_template('dashboard.html', email=session['email'], name=session['name'], school=session['school'], account=session['type'], is_prof = session['is_prof'])
 
 @app.route("/layout")
 def layout():
@@ -82,4 +116,5 @@ def connect_db():
     return sqlite3.connect(app.config['DATABASE'])
 
 if __name__ == "__main__":
+    app.secret_key = 'jellyjellyjelly'
     app.run(debug=True)

@@ -6,8 +6,7 @@
     <title>EoS</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/foundation.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layout.css') }}">
-    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/vendor/modernizr.js') }}">
- 
+    <script src="js/vendor/modernizr.js"></script>
   </head>
 
 
@@ -51,6 +50,22 @@
         </div>
       </div>
 
+  <div class="row">
+    {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+          {%- for msg in msgs %}
+            <div class="small-4 columns">
+            <div data-alert class="alert-box">
+            <!-- Your content goes here -->
+            {{ msg }}
+            <a href="#" class="close">&times;</a>
+            </div>
+            </div>
+          {% endfor -%}
+        {% endif %}
+      {% endwith %}
+    </div>
+
      <div class="row">
         <div class="large-6 columns">
 		     <form div="signin-form" action="/signin" method="POST">
@@ -67,31 +82,31 @@
 			</form>
 		</div>
 
-		<div class="large-6 columns">
-		     <form div="signup-form" action="/newuser" method="post">
-			  <fieldset>
-			    <legend style="font-size:30px;">Sign Up</legend>
-			    <label style="font-size:25px;">Name
-			      <input type="text" name="name" placeholder="Jon Doe">
-			    </label>
-			    <label style="font-size:25px;">E-Mail
-			      <input type="text" name="email" placeholder="Jon.Doe@gmail.com">
-			    </label>
-			    <label style="font-size:25px;">Password
-			      <input type="password" name="password" placeholder="shhh">
-			    </label>
-			    <label style="font-size:25px;">School
-			      <input type="text" name="school" placeholder="University of Pennsylvania">
-			    </label>
+  		<div class="large-6 columns">
+  		     <form div="signup-form" action="/newuser" method="post">
+  			  <fieldset>
+  			    <legend style="font-size:30px;">Sign Up</legend>
+  			    <label style="font-size:25px;">Name
+  			      <input type="text" name="name" placeholder="Jon Doe">
+  			    </label>
+  			    <label style="font-size:25px;">E-Mail
+  			      <input type="text" name="email" placeholder="Jon.Doe@gmail.com">
+  			    </label>
+  			    <label style="font-size:25px;">Password
+  			      <input type="password" name="password" placeholder="shhh">
+  			    </label>
+  			    <label style="font-size:25px;">School
+  			      <input type="text" name="school" placeholder="University of Pennsylvania">
+  			    </label>
 
-      			<input type="radio" name="type" value="1" id="Professor"><label style="font-size:25px;" for="Professor">Professor</label>
-      			<input type="radio" name="type" value="1" id="TA"><label style="font-size:25px;" for="TA">TA</label>
-      			<input type="radio" name="type" value="0" id="Student"><label style="font-size:25px;" for="Student">Student</label>
+        			<input type="radio" name="type" value="1" id="Professor"><label style="font-size:25px;" for="Professor">Professor</label>
+        			<input type="radio" name="type" value="1" id="TA"><label style="font-size:25px;" for="TA">TA</label>
+        			<input type="radio" name="type" value="0" id="Student"><label style="font-size:25px;" for="Student">Student</label>
 
-			  </fieldset>
-			  <input type="submit" value="Sign Up" class="button">
-			</form>
-		</div>
+  			  </fieldset>
+  			  <input type="submit" value="Sign Up" class="button">
+  			</form>
+  		</div>
      </div>
 
 
@@ -112,8 +127,6 @@
   </div>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
-    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/vendor/jquery.js') }}">
-    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/foundation.min.js') }}">
     
     <script>
       $(document).foundation();
