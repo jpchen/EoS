@@ -1,5 +1,5 @@
 # configuration
-DATABASE = 'tmp/users.db'
+DATABASE = 'tmp/eos.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'

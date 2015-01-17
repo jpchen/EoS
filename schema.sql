@@ -7,7 +7,7 @@ create table users (
   school text not null,
   prof integer not null
 );
-create table videos {
+create table videos (
   id integer primary key,
   name text not null 
-};
+);
