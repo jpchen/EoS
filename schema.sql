@@ -15,7 +15,7 @@ create table courses (
   cap integer
 );
 create table comments (
-  id integer primary key,
+  id text not null,
   usr text not null,
   time integer,
   comm text not null 
