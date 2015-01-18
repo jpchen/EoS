@@ -21,7 +21,7 @@
              <li><a href="/" class="button">Forgot Password</a></li>
             </ul>
           </div>
-          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>It's awesome.</small></h1>
+          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>Education. Realtime.</small></h1>
           <hr />
         </div>
       </div>
@@ -51,16 +51,19 @@
       </div>
 
   <div class="row">
+    <br/>
     {% with msgs = get_flashed_messages() %}
         {% if msgs %}
           {%- for msg in msgs %}
-            <div class="small-4 columns">
+          <center>
+            <div class="twelve columns text-center">
             <div data-alert class="alert-box info radius">
             <!-- Your content goes here -->
             {{ msg }}
             <a href="#" class="close">&times;</a>
             </div>
             </div>
+          </center>
           {% endfor -%}
         {% endif %}
       {% endwith %}
@@ -78,7 +81,7 @@
 			      <input type="password" name="password" placeholder="shhh">
 			    </label>
 			  </fieldset>
-			  <input type="submit" value="Login" class="button">
+			  <input type="submit" value="Login" class="button radius">
 			</form>
 		</div>
 
@@ -104,7 +107,7 @@
         			<input type="radio" name="type" value="0" id="Student"><label style="font-size:25px;" for="Student">Student</label>
 
   			  </fieldset>
-  			  <input type="submit" value="Sign Up" class="button">
+  			  <input type="submit" value="Sign Up" class="button radius success">
   			</form>
   		</div>
      </div>
@@ -116,7 +119,7 @@
           <hr />
           <div class="row">
             <div class="large-6 columns">
-              <p>© Copyright EoS</p>
+              <p>© Copyright 2015 EoS</p>
             </div>
           </div>
         </div>

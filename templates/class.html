@@ -15,7 +15,6 @@
     <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/vendor/jquery.js') }}">
     <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/foundation.min.js') }}">
     <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/vendor/modernizr.js') }}">
-    <!-- <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/c.js') }}"> -->
 
 
     <link rel="stylesheet" href="//assets.ziggeo.com/css/ziggeo-betajs-player.min.css" />
@@ -37,7 +36,7 @@
              <li><a href="/logout" class="button">Log Out</a></li>
             </ul>
           </div>
-          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>It's awesome.</small></h1>
+          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>Education. Realtime.</small></h1>
           <hr />
         </div>
       </div>
@@ -50,34 +49,37 @@
         <div class="large-12 columns">
           
           <div class="row">
+            <br/>
             {% with msgs = get_flashed_messages() %}
-              {% if msgs %}
-                {%- for msg in msgs %}
-                  <div class="small-4 columns">
-                  <div data-alert class="alert-box info radius">
-                  <!-- Your content goes here -->
-                  {{ msg }}
-                  <a href="#" class="close">&times;</a>
-                  </div>
-                  </div>
-                {% endfor -%}
-              {% endif %}
-            {% endwith %}
+                {% if msgs %}
+                  {%- for msg in msgs %}
+                  <center>
+                    <div class="twelve columns text-center">
+                    <div data-alert class="alert-box info radius">
+                    <!-- Your content goes here -->
+                    {{ msg }}
+                    <a href="#" class="close">&times;</a>
+                    </div>
+                    </div>
+                  </center>
+                  {% endfor -%}
+                {% endif %}
+              {% endwith %}
           </div>
 
           <!-- Feed Entry -->
           <div class="row">
-            <h1>{{ course }}</h1>
+            <center><h2>Course: {{ course }}</h2><center>
           </div>
           <!-- End Feed Entry -->
      
           <!-- record new video -->
           <div class="row">
           {% if session.is_prof %}
-          <h3>Record a New Video:</h3>
+          <h2 class="subheader">Record a New Video</h2>
           <div class="frame" id="record">
-                Video Description: <input type="text" id="description" placeholder="Add description">
-                <button onclick="myFunction()">Start Recording!</button>
+                Video Description: <input type="text" id="description" placeholder="Add a description of the video..">
+                <button class="button radius alert" onclick="myFunction()">Start Recording!</button>
                 <script>
                     function myFunction() {
                         var d = document.getElementById("description").value;
@@ -98,7 +100,7 @@
      
         <!-- all videos -->
         <hr/>
-        <div class="row"><h3>Videos:</h3></div>
+        <div class="row"><h2 class="subheader">Videos</h2></div>
         {% for video in ziggeo.videos().index() %}
           {% if video['title'] == course %}
           <div class="row">
@@ -119,10 +121,10 @@
             <div class="large-8 columns">
               <!-- <p><strong>Video Info</strong>  -->
               <!-- <p><strong>Video ID: </strong>{% print video['token'] %}</p> -->
-              <strong>Date Recorded: </strong>{% print datetime.datetime.fromtimestamp(video['created'] 
+              <strong>Date Recorded:  </strong>{% print datetime.datetime.fromtimestamp(video['created'] 
                               ).strftime('%Y-%m-%d %H:%M:%S') %}
-              <br/><strong>Duration (minutes): </strong>{% print video['duration'] %}
-              <br/><strong>Video Description: </strong>{% print video['description'] %}
+              <br/><strong>Duration (seconds):  </strong>{% print video['duration'] %}
+              <br/><strong>Video Description:  </strong>{% print video['description'] %}
 
 
               <h4>Comments</h4>
@@ -132,7 +134,7 @@
                 <div class="panel radius">
                   <div class="row">
                     <!-- <div class="large-1 columns"></div> -->
-                    <div class="large-11 columns"><strong>{% print c[1] %} ({% print c[2] %}):</strong> 
+                    <div class="large-11 columns"><bold>{% print c[1] %} ({% print c[2] %}):</bold> 
                       {% print c[3] %}</div>
                   </div>
                 </div>
@@ -144,12 +146,6 @@
               <!-- one comment -->
               <!-- <div class="row">
                 <div class="large-11 columns"><p><strong>Some Person said:</strong> Comment 1 Comment 1 Comment 1 Comment 1 Comment 1 Comment 1 Comment 1</p></div>
-              </div>
-              <br/> -->
-
-              <!-- one comment -->
-              <!-- <div class="row">
-                <div class="large-11 columns"><p><strong>Some Person said:</strong>  Comment 2  Comment 2  Comment 2  Comment 2  Comment 2  Comment 2  Comment 2</p></div>
               </div>
               <br/> -->
 
@@ -165,7 +161,7 @@
                     <input type="hidden" class="currCourse" name="currCourse" value={{ course }} >
                   </div>
                   <div class="small-2 columns">
-                    <input class="button submitComment postfix" type="submit" value="Post" style="display:inline-block;">
+                    <input class="button submitComment postfix radius disabled" type="submit" value="Post" style="display:inline-block;">
                   </div>
                 </form>
 
@@ -196,9 +192,6 @@
                 type: "POST",
                 data: postData,
                 success: function (data, textStatus, jqXHR) {
-                    // clearing fields
-                    // wallposts = [];
-                    // $(".wallpost").val("");
                     alert("Comment was sucessfully added!");
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -211,61 +204,18 @@
     </script>
 
      
-          <!-- Feed Entry -->
-          <div class="row">
-            <div class="large-4 columns small-3"><img src="http://placehold.it/250x250&text=[video]" /></div>
-            <div class="large-8 columns">
-              <p><strong>Video Info</strong> 
-                <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
-     
-              <h6>2 Comments</h6>
-              <!-- one comment -->
-              <div class="row">
-                <!-- <div class="large-1 columns"></div> -->
-                <div class="large-11 columns"><p><strong>Some Person said:</strong> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p></div>
-              </div>
-              <br/>
-              <!-- one comment -->
-              <div class="row">
-                <!-- <div class="large-2 columns"></div> -->
-                <div class="large-11 columns"><p><strong>Some Person said:</strong> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p></div>
-              </div>
-              <br/>
-              <!-- add comment form! -->
-              <div class="row">
-              <div class="large-12 columns">
-              <div class="row collapse">
-
-                <form class="newCommentPost" action="/addcomment" method="post">  
-                  <div class="small-10 columns">
-                    <input type="text" class="commentText" name="commentText" placeholder="Write a comment..">
-                    <input type="hidden" name="videoId" value="" >
-                  </div>
-                  <div class="small-2 columns">
-                    <input class="button submitComment postfix" type="submit" value="Post" style="display:inline-block;">
-                  </div>
-                </form>
-
-              </div>
-              </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Feed Entry -->
-     
         </div>
       </div>
      
      
-
       <!-- Footer -->
      
       <footer class="row">
         <div class="large-12 columns">
-          <hr />
+          <!-- <hr /> -->
           <div class="row">
             <div class="large-6 columns">
-              <p>© Copyright EoS</p>
+              <p>© Copyright 2015 EoS</p>
             </div>
           </div>
         </div>
