@@ -1,3 +1,7 @@
+EoS: Education. Realtime.
+=========================
+
+
 Ziggeo Python Server SDK
 =========================
 
