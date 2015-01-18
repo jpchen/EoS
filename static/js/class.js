@@ -15,11 +15,12 @@ var postComment = function() {
 $(document).ready(function () {
 		// adding a wall post
 	    $(".newCommentPost").submit(function (e) {
-	    	
+
 	        if ($(".commentText").val() == "") {
 	            alert("You didn't write a comment, try again!");
 	        } else {
 	        	alert($(".commentText").val());
+	        	alert($(".videoId").val());
 	            // var postData = $(this).serializeArray();
 	            // var formURL = $(this).attr("action");
 	            // $.ajax({

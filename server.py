@@ -70,7 +70,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route("/class/<course>", methods=['GET'])
+@app.route("/class/<course>", methods=['GET', 'POST'])
 def classes(course=None):
     if not 'email' in session:
         flash("Please log in.")
@@ -117,7 +117,8 @@ def addcomment():
         #         session['is_prof'] = 0
         #         session['type'] = "Student"
         #     flash('You were successfully logged in!')
-            return redirect(url_for('class'))
+        # render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
+        return redirect(url_for('classes'))
     return redirect(url_for('index'))
 
 
