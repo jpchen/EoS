@@ -6,7 +6,8 @@ create table users (
   hash text not null,
   email text not null,
   school text not null,
-  prof integer not null
+  prof integer not null,
+  courses text
 );
 create table courses (
   id integer primary key autoincrement,
