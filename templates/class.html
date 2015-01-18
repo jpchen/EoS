@@ -37,7 +37,7 @@
              <li><a href="/logout" class="button">Log Out</a></li>
             </ul>
           </div>
-          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>It's awesome.</small></h1>
+          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>Education. Realtime.</small></h1>
           <hr />
         </div>
       </div>
@@ -74,9 +74,9 @@
           <!-- record new video -->
           <div class="row">
           {% if session.is_prof %}
-          <h3>Record a New Video:</h3>
+          <h2>Record a New Video:</h2>
           <div class="frame" id="record">
-                Video Description: <input type="text" id="description" placeholder="Add description">
+                Video Description: <input type="text" id="description" placeholder="Add a description of the video..">
                 <button onclick="myFunction()">Start Recording!</button>
                 <script>
                     function myFunction() {
@@ -98,7 +98,7 @@
      
         <!-- all videos -->
         <hr/>
-        <div class="row"><h3>Videos:</h3></div>
+        <div class="row"><h2>Videos:</h2></div>
         {% for video in ziggeo.videos().index() %}
           {% if video['title'] == course %}
           <div class="row">
@@ -121,7 +121,7 @@
               <!-- <p><strong>Video ID: </strong>{% print video['token'] %}</p> -->
               <strong>Date Recorded: </strong>{% print datetime.datetime.fromtimestamp(video['created'] 
                               ).strftime('%Y-%m-%d %H:%M:%S') %}
-              <br/><strong>Duration (minutes): </strong>{% print video['duration'] %}
+              <br/><strong>Duration (seconds): </strong>{% print video['duration'] %}
               <br/><strong>Video Description: </strong>{% print video['description'] %}
 
 

@@ -17,8 +17,13 @@
 }
 @font-face {
   font-family: "cabin";
-  src: url('../font/Cabin-Medium.otf');
+  src: url('../font/Cabin-Regular.otf');
 }
+@font-face {
+  font-family: "cabinB";
+  src: url('../font/Cabin-Bold.otf');
+}
+
 @font-face {
   font-family: "GeoSan";
   src: url('../font/GeosansLight.ttf');
@@ -29,8 +34,8 @@ body {
   /*background-image: url(../static/logo.png);*/
   font-family: "cabin";
 }
-strong {
-  font-size: "Ubuntu-R";
+body strong {
+  font-family: "cabinB";
 }
 h1 {
   font-family: "BebasR";

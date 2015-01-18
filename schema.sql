@@ -17,6 +17,6 @@ create table courses (
 create table comments (
   id text not null,
   usr text not null,
-  time integer,
+  time text,
   comm text not null 
 );

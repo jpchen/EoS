@@ -127,11 +127,11 @@ def addcomment():
     comment = request.form['commentText']
     videoId = request.form['videoId']
     course = request.form['currCourse']
-    commentTime = 1
-    # commentTime = time.strftime("%x") + " " + time.strftime("%X")
+    # commentTime = 1
+    commentTime = time.strftime("%x") + " " + time.strftime("%X")
     if request.method == 'POST':
         r = g.db.execute('''INSERT INTO COMMENTS (id, usr, time, comm) \
-                  VALUES ('%s', '%s', '%d', '%s')''' % (videoId, session['name'], commentTime, comment))
+                  VALUES ('%s', '%s', '%s', '%s')''' % (videoId, session['name'], commentTime, comment))
         # not safe at all
         g.db.commit()
         flash("Successfully posted a comment.")
