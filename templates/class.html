@@ -118,23 +118,24 @@
 
             <div class="large-8 columns">
               <!-- <p><strong>Video Info</strong>  -->
-              <p><strong>Video ID: </strong>{% print video['token'] %}</p>
-              <p><strong>Time Recorded: </strong>{% print datetime.datetime.fromtimestamp(video['created'] 
-                              ).strftime('%Y-%m-%d %H:%M:%S') %}</p>
-              <p><strong>Duration (minutes): </strong>{% print video['duration'] %}</p>
-              <p><strong>Video Description: </strong>{% print video['description'] %}</p>
+              <!-- <p><strong>Video ID: </strong>{% print video['token'] %}</p> -->
+              <strong>Date Recorded: </strong>{% print datetime.datetime.fromtimestamp(video['created'] 
+                              ).strftime('%Y-%m-%d %H:%M:%S') %}
+              <br/><strong>Duration (minutes): </strong>{% print video['duration'] %}
+              <br/><strong>Video Description: </strong>{% print video['description'] %}
 
 
-              <h6>Comments</h6>
+              <h4>Comments</h4>
 
               {% for c in comments %}
-<!--                 {% print c %} -->
                 {% if c[0] == video['token'] %}
+                <div class="panel radius">
                   <div class="row">
                     <!-- <div class="large-1 columns"></div> -->
-                    <div class="large-11 columns"><p><strong>{% print c[1] %} ({% print c[2] %}):</strong> 
-                      {% print c[3] %}</p></div>
+                    <div class="large-11 columns"><strong>{% print c[1] %} ({% print c[2] %}):</strong> 
+                      {% print c[3] %}</div>
                   </div>
+                </div>
                   <!-- <br/> -->
                   
                 {% endif %}
@@ -180,9 +181,9 @@
 
         <script>
       $(".newCommentPost").submit(function (e) {
-          if ($(".commentText").val() == "") {
-              alert("You didn't write a comment, try again!");
-          } else {
+          // if ($(".commentText").val() == "") {
+          //     alert("You didn't write a comment, try again!");
+          // } else {
             // alert($(".commentText").val());
             // alert($(".videoId").val());
             // alert($(".currCourse").val());
@@ -204,7 +205,7 @@
                     alert("Comment was not posted, please try again. " + errorThrown);
                 }
             });
-          }
+          // }
           e.preventDefault();
       }); 
     </script>

@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
 import datetime
+import time
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
@@ -59,14 +60,14 @@ def signin():
             else:
                 session['is_prof'] = False
                 session['type'] = "Student"
-            flash('You were successfully logged in!')
+            flash('You are successfully logged in!')
             return redirect(url_for('dashboard'))
     return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
     session.pop('email', None)
-    flash('You were logged out.')
+    flash('You are logged out.')
     return redirect(url_for('index'))
 
 
@@ -104,14 +105,13 @@ def layout():
 def addcomment():
     print "IN ADD COMMENT"
     comment = request.form['commentText']
-    print comment
     videoId = request.form['videoId']
     course = request.form['currCourse']
-    print videoId
-    time = 1
+    commentTime = 1
+    # commentTime = time.strftime("%x") + " " + time.strftime("%X")
     if request.method == 'POST':
         r = g.db.execute('''INSERT INTO COMMENTS (id, usr, time, comm) \
-                  VALUES ('%s', '%s', '%d', '%s')''' % (videoId, session['name'], time, comment))
+                  VALUES ('%s', '%s', '%d', '%s')''' % (videoId, session['name'], commentTime, comment))
         # not safe at all
         g.db.commit()
         flash("Successfully posted a comment.")

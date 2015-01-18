@@ -7,14 +7,36 @@
   font-family: "BebasR";
   src: url('../font/BebasNeueRegular.ttf');
 }
+@font-face {
+  font-family: "Ubuntu-R";
+  src: url('../font/Ubuntu-R.ttf');
+}
+@font-face {
+  font-family: "LG";
+  src: url('../font/leaguegothic-regular-webfont.ttf');
+}
+@font-face {
+  font-family: "cabin";
+  src: url('../font/Cabin-Medium.otf');
+}
+@font-face {
+  font-family: "GeoSan";
+  src: url('../font/GeosansLight.ttf');
+}
+
 
 body {
   /*background-image: url(../static/logo.png);*/
-  font-family: "BebasR";
+  font-family: "cabin";
 }
-
+strong {
+  font-size: "Ubuntu-R";
+}
 h1 {
   font-family: "BebasR";
+}
+h2, h3, h4, h5, h6 {
+  font-family: "LG";
 }
 /*.button {
   background-color: #B4C1E0;
