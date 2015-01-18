@@ -114,8 +114,12 @@ def addcomment():
                   VALUES ('%s', '%s', '%d', '%s')''' % (videoId, session['name'], time, comment))
         # not safe at all
         g.db.commit()
-        flash("ADDED COMMENT")
-        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
+        flash("Successfully posted a comment.")
+        r = g.db.execute('SELECT * FROM COMMENTS').fetchall()
+        print r
+        if not r:
+            r = []
+        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=(r))
 
 
 # initializes DB
