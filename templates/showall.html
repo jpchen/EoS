@@ -17,75 +17,160 @@
   </head>
 
   <body>
-    <h1>All Courses </h1>
-    {% block body %}{% endblock %}
-    <div class="large-6 columns" id="myClasses">
-    {% for course in courses %}
-    <br> {{ course }} 
-    {% if not mycourses %}
-          <div class="row">
-              <button class="add" onclick="addClass()" value={{course}}>Add Class</button>
+
+    <!-- Nav Bar -->
+        <div class="content">
+            <div class="row">
+              <div class="large-12 columns">
+                <div class="nav-bar right">
+                 <ul class="button-group">
+                   <li><a href="/dashboard" class="button"><h5>Home</h5></a></li>
+                   <li><a href="/allclasses" class="button"><h5>All Classes</h5></a></li>
+                   <li><a href="/logout" class="button"><h5>Log Out</h5></a></li>
+                  </ul>
+                </div>
+                <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>Education. Realtime.</small></h1>
+                <hr />
+              </div>
+            </div>
+      <!-- End Nav -->
+
+
+      <div class="row">
+            <br/>
+            {% with msgs = get_flashed_messages() %}
+                {% if msgs %}
+                  {%- for msg in msgs %}
+                  <center>
+                    <div class="twelve columns text-center">
+                    <div data-alert class="alert-box info radius">
+                    <!-- Your content goes here -->
+                    {{ msg }}
+                    <a href="#" class="close">&times;</a>
+                    </div>
+                    </div>
+                  </center>
+                  {% endfor -%}
+                {% endif %}
+              {% endwith %}
           </div>
-    {% else %}
-      {% if course not in mycourses %}
-              <button class="add" onclick="addClass()" value={{course}}>Add Class</button>
-      {% endif %}
-    {% endif %}
-    </br>
-    {% endfor %}
-    <script>
-        var c = $(".add").val();
-        function addClass() {
-            $.ajax({
-                url: "/addclass",
-                type: "POST",
-                data: {
-                    'course': c,
-                    'create' : '0',
-                },
-                success: function (resp) {
-                    alert("Class was sucessfully added!");
-                },
-                error: function (error) {
-                    alert("There was an error adding the class. Please try again. " + errorThrown);
-                }
-            });
-        }
-    </script>
-</div>
+
+    <div class="large-12 columns">
+  <div class="row">
+
+        <!--Feed -->
+        <div class="large-8 columns">
+          <fieldset>
+          <legend>All Courses</legend>
+              <div class="large-6 columns" id="myClasses">
+              {% for course in courses %}
+              
+              <div class="row">
+                <div class="large-12 columns">
+                  <div class="row collapse">
+                    
+                    <div class="small-2 columns">
+                      {% if not mycourses %}
+                          <div class="row">
+                              <button class="add button postfix radius success" onclick="addClass()" value={{course}}>Add Class</button>
+                            </div>
+                      {% else %}
+                        {% if course not in mycourses %}
+                                <button class="add button radius small success" onclick="addClass()" value={{course}}>Add Class</button>
+                        {% else %}
+                                <button class="add button radius small alert">Enrolled</button>
+                        {% endif %}
+                      {% endif %}
+
+                    </div>
+
+                    <div class="small-4 columns">
+                      <h5 class="title"><a href=/class/{{ course }}> {{ course }} </a></h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
+              </br>
+              {% endfor %}
+              <script>
+                  var c = $(".add").val();
+                  function addClass() {
+                      $.ajax({
+                          url: "/addclass",
+                          type: "POST",
+                          data: {
+                              'course': c,
+                              'create' : '0',
+                          },
+                          success: function (resp) {
+                              alert("Class was sucessfully added!");
+                          },
+                          error: function (error) {
+                              alert("There was an error adding the class. Please try again. " + errorThrown);
+                          }
+                      });
+                  }
+              </script>
+          </div>
+          
+
+          </fieldset>
+
+        </div>
 
         <!-- Right Sidebar -->
         <!-- On small devices this column is hidden -->
-        <div class="large-3 columns ">
+        <div class="large-4 columns ">
           <div class="panel">
             <a href="#"><img src="http://braddyc.files.wordpress.com/2011/09/penguin.png" /></a>
             <h5>Name: {{ name }} </h5>
             <h5>Email: {{ email }} </h5>
             <h5>School: {{ school }} </h5>
             <h5>Type of Account: {{ account }} </h5>
-              <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
-              <section class="section">
-                <h5 class="title"><a href="#">Section 1</a></h5>
-              </section>
-              <section class="section">
-                <h5 class="title"><a href="#">Section 2</a></h5>
-              </section>
-              <section class="section">
-                <h5 class="title"><a href="#">Section 3</a></h5>
-              </section>
-              <section class="section">
-                <h5 class="title"><a href="#">Section 4</a></h5>
-              </section>
-              <section class="section">
-                <h5 class="title"><a href="#">Section 5</a></h5>
-              </section>
-              <section class="section">
-                <h5 class="title"><a href="#">Section 6</a></h5>
-              </section>
+              <br/><div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
+              <h5>Courses Enrolled: </h5>
+              {% for course in mycourses %}
+                <section class="section">
+                  <h5 class="title"><a href=/class/{{ course }}> {{ course }} </a></h5>
+                </section>
+              {% endfor %}
+
+              {% if session.is_prof %}
+              <br><button class="button radius success" onclick="addClass()">Create a New Class</button>
+              {% endif %}
             </div>
+
+                <script>
+                function addClass() {
+                  var course = prompt("Please enter the class name");
+                  if (course != "" && course != null) {
+                      //var postData = $(this).serializeArray();
+                      $.ajax({
+                          url : "/addclass",
+                          type : "POST",
+                          data : {
+                              'course' : course,
+                              'create' : '1'
+                          },
+                          success : function(r){
+                              alert("Successfully added " + course + "!");
+                              console.log("Request successful");}
+                      });
+                      }else {
+                      alert("Please enter a class name.")
+                  }
+                }
+                </script>
      
           </div>
         </div>
+        </div>
+      </div>
+     
+      </div>
+
      
       </div>
      

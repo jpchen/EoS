@@ -160,7 +160,7 @@ def allclasses():
     mycourses = session['courses'].split('|')[1:-1]
     if not len(mycourses):
         mycourses = None
-    return render_template('showall.html', courses=courselist, mycourses=mycourses)
+    return render_template('showall.html', email=session['email'], name=session['name'], school=session['school'], account=session['type'], is_prof = session['is_prof'], courses=courselist, mycourses=mycourses)
 
 # initializes DB
 def init_db():
