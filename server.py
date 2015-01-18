@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, g, redirect, url_for, \
 from contextlib import closing
 import datetime
 import unicodedata
+import time
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
@@ -104,18 +105,24 @@ def addclass():
     q = g.db.execute('SELECT courses FROM USERS WHERE email= \"' + email + '\"')
     courselist = q.fetchone()[0]
     course = request.form['course']
+    print "HERE"
+    print course
+    isCreate = request.form['create']
     courselist += course + "|"
     #TODO class capacity
     cap=100
     #add to courses DB
-    r = g.db.execute('''INSERT INTO COURSES (name, cap) \
+    if isCreate == "1":
+        r = g.db.execute('''INSERT INTO COURSES (name, cap) \
                   VALUES ('%s', '%d')''' % (course, cap))
     #add to users DB
     s = g.db.execute('UPDATE USERS SET courses= \"' + courselist + '\" WHERE email= \"' + email + '\"')
     # not safe at all
     g.db.commit()
     flash('Successfully added '+ name + "!")
-    return redirect(url_for('dashboard'))
+    if isCreate == "1":
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('allclasses'))
 
 @app.route("/addcomment", methods=['POST'])
 def addcomment():
