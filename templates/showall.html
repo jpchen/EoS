@@ -6,29 +6,52 @@
     <title>EoS</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/foundation.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layout.css') }}">
-    <script src="js/vendor/modernizr.js"></script>
+
+    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/vendor/jquery.js') }}">
+    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/foundation.min.js') }}">
+    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/vendor/modernizr.js') }}">
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ 
   </head>
 
-
   <body>
-    <h1>ALL Courses </h1>
+    <h1>All Courses </h1>
     {% block body %}{% endblock %}
     <div class="large-6 columns" id="myClasses">
     {% for course in courses %}
     <br> {{ course }} 
     {% if not mycourses %}
-          <button onclick="myFunction()">Add Class</button>
+          <div class="row">
+              <button class="add" onclick="addClass()" value={{course}}>Add Class</button>
+          </div>
     {% else %}
       {% if course not in mycourses %}
-          <button onclick="myFunction()">Add Class</button>
+              <button class="add" onclick="addClass()" value={{course}}>Add Class</button>
       {% endif %}
     {% endif %}
-      </br>
+    </br>
+    {% endfor %}
     <script>
-        function myFunction() {
+        var c = $(".add").val();
+        function addClass() {
+            $.ajax({
+                url: "/addclass",
+                type: "POST",
+                data: {
+                    'course': c,
+                    'create' : '0',
+                },
+                success: function (resp) {
+                    alert("Class was sucessfully added!");
+                },
+                error: function (error) {
+                    alert("There was an error adding the class. Please try again. " + errorThrown);
+                }
+            });
         }
     </script>
-    {% endfor %}
 </div>
 
         <!-- Right Sidebar -->
@@ -84,6 +107,8 @@
 
 
   </div>
+    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/vendor/jquery.js') }}">
+    <link rel=stylesheet type=javascript href="{{ url_for('static', filename='js/foundation.min.js') }}">
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     

@@ -192,10 +192,10 @@
                 url: formURL,
                 type: "POST",
                 data: postData,
-                success: function (data, textStatus, jqXHR) {
+                success: function (data, textStatus) {
                     alert("Comment was sucessfully added!");
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function (textStatus, errorThrown) {
                     alert("Comment was not posted, please try again. " + errorThrown);
                 }
             });
