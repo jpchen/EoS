@@ -22,7 +22,7 @@
              <li><a href="/logout" class="button">Log Out</a></li>
             </ul>
           </div>
-          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>It's awesome.</small></h1>
+          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>Education. Realtime.</small></h1>
           <hr />
         </div>
       </div>
@@ -44,73 +44,41 @@
       {% endwith %}
     </div>
 
-      <!-- Main Feed -->
-        <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
-        <div class="large-6 columns">
-     
-          <!-- Feed Entry -->
-          <div class="row">
-            <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]" /></div>
-            <div class="large-10 columns">
-              <p><strong>Some Person said:</strong> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
-              <ul class="inline-list">
-                <li><a href="">Reply</a></li>
-                <li><a href="">Share</a></li>
-              </ul>
-     
-     
-              <h6>2 Comments</h6>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]" /></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]" /></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-            </div>
-          </div>
-          <!-- End Feed Entry -->
-     
-          <hr />
-     
-          <!-- Feed Entry -->
-          <div class="row">
-            <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]" /></div>
-            <div class="large-10 columns">
-              <p><strong>Some Person said:</strong> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
-              <ul class="inline-list">
-                <li><a href="">Reply</a></li>
-                <li><a href="">Share</a></li>
-              </ul>
-            </div>
-          </div>
-          <!-- End Feed Entry -->
-     
-          <hr />
-     
-          <!-- Feed Entry -->
-          <div class="row">
-            <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]" /></div>
-            <div class="large-10 columns">
-              <p><strong>Some Person said:</strong> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
-              <ul class="inline-list">
-                <li><a href="">Reply</a></li>
-                <li><a href="">Share</a></li>
-              </ul>
-     
-     
-              <h6>2 Comments</h6>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]" /></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-            </div>
-          </div>
-          <!-- End Feed Entry -->
-     
-        </div>
-     
+<!--ADDCLASS -->
+<div class="large-6 columns">
+    
+<button onclick="addClass()">Add Class</button>
+
+<p id="addCourse"></p>
+    <script>
+    function addClass() {
+        var course = prompt("Please enter the class name");
+        if (course != "") {
+            //var postData = $(this).serializeArray();
+            $.ajax({
+                url : "/addclass",
+                type : "POST",
+                data : {
+                    'course' : course,
+                },
+                success : function(r){
+                    alert("Successfully added " + course + "!");
+                    console.log("Request successful");}
+            });
+            }else {
+            alert("Please enter a class name.")
+        }
+    }
+</script>
+</div>
+
+<div class="large-6 columns" id="myClasses">
+    <h1>My Courses </h1>
+    {% for course in courses.split('|')[1:-1] %}
+    <br> {{ course }}</br>
+    {% endfor %}
+</div>
+
         <!-- Right Sidebar -->
         <!-- On small devices this column is hidden -->
         <div class="large-3 columns ">

@@ -14,7 +14,9 @@ ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    if not 'email' in session:
+        return render_template('index.html')
+    return redirect(url_for('dashboard'))
 
 # CREATE LOG IN AND OUT STUFF
 @app.route("/newuser", methods=['POST'])
@@ -24,14 +26,15 @@ def new_user():
     email = request.form['email']
     school = request.form['school']
     prof = int(request.form['type'])
-    r = g.db.execute('''INSERT INTO USERS (name, hash, email, school, prof) \
-                  VALUES ('%s', '%s', '%s', '%s', '%d')''' % (name, my_hash, email, school, prof))
+    r = g.db.execute('''INSERT INTO USERS (name, hash, email, school, prof, courses) \
+                  VALUES ('%s', '%s', '%s', '%s', '%d', '%s')''' % (name, my_hash, email, school, prof, "|"))
     # not safe at all
     g.db.commit()
     # result = g.db.execute("SELECT * FROM USERS")
     session['email'] = email
     session['name'] = name
     session['school'] = school
+    session['courses'] = "|"
     if prof == 1:
         session['is_prof'] = True
         session['type'] = "Professor/TA"
@@ -54,6 +57,7 @@ def signin():
             session['name'] = info[0]
             session['school'] = info[3]
             acct = info[4]
+            session['courses'] = info[5]
             if acct == 1:
                 session['is_prof'] = True
                 session['type'] = "Professor/TA"
@@ -83,23 +87,39 @@ def classes(course=None):
             r = []
         return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=(r))
 
-def converttoString(s):
-    result = '/'
-    for i in s:
-        result += str(i)+'/'
-    return result
-
 @app.route("/dashboard")
 def dashboard():
     if not 'email' in session:
         flash("Please log in.")
         return redirect(url_for('index'))
     else:
-        return render_template('dashboard.html', email=session['email'], name=session['name'], school=session['school'], account=session['type'], is_prof = session['is_prof'])
+        r = g.db.execute('SELECT * FROM USERS WHERE email= \"' + session['email'] + '\"')
+        session['courses'] = r.fetchone()[5]
+        return render_template('dashboard.html', email=session['email'], name=session['name'], school=session['school'], account=session['type'], is_prof = session['is_prof'], courses=session['courses'])
 
 @app.route("/layout")
 def layout():
     return render_template('layout.html')
+
+@app.route("/addclass", methods=['POST'])
+def addclass():
+    name = session['name']
+    email = session['email']
+    q = g.db.execute('SELECT courses FROM USERS WHERE email= \"' + email + '\"')
+    courselist = q.fetchone()[0]
+    course = request.form['course']
+    courselist += course + "|"
+    #TODO class capacity
+    cap=100
+    #add to courses DB
+    r = g.db.execute('''INSERT INTO COURSES (name, cap) \
+                  VALUES ('%s', '%d')''' % (course, cap))
+    #add to users DB
+    s = g.db.execute('UPDATE USERS SET courses= \"' + courselist + '\" WHERE email= \"' + email + '\"')
+    # not safe at all
+    g.db.commit()
+    flash('Successfully added '+ name + "!")
+    return redirect(url_for('dashboard'))
 
 @app.route("/addcomment", methods=['POST'])
 def addcomment():
