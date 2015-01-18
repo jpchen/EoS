@@ -65,7 +65,7 @@ def signin():
             else:
                 session['is_prof'] = False
                 session['type'] = "Student"
-            flash('You were successfully logged in!')
+            flash('You successfully logged in!')
             return redirect(url_for('dashboard'))
     return redirect(url_for('index'))
 
@@ -79,15 +79,19 @@ def logout():
 @app.route("/class/<course>", methods=['GET'])
 def classes(course=None):
     if not 'email' in session:
-        flash("Please log in.")
+        flash("Please log in to view content.")
         return redirect(url_for('index'))
     else:
-        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
+        r = g.db.execute('SELECT * FROM COMMENTS').fetchall()
+        print r
+        if not r:
+            r = []
+        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=r)
 
 @app.route("/dashboard")
 def dashboard():
     if not 'email' in session:
-        flash("Please log in.")
+        flash("Please log in to view content.")
         return redirect(url_for('index'))
     else:
         r = g.db.execute('SELECT * FROM USERS WHERE email= \"' + session['email'] + '\"')
@@ -140,7 +144,7 @@ def addcomment():
 @app.route("/allclasses")
 def allclasses():
     if not 'email' in session:
-        flash("Please log in.")
+        flash("Please log in to view content.")
         return redirect(url_for('index'))
     else:
         q = g.db.execute('SELECT * FROM USERS WHERE email= \"' + session['email'] + '\"')
