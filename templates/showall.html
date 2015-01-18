@@ -24,18 +24,18 @@
     <br> {{ course }} 
     {% if not mycourses %}
           <div class="row">
-              <button class="add" onclick="addClass()" value={{course}}>Add Class</button>
+              <button class="add" onclick="addClass('{{course}}')" value={{course}}>Add Class</button>
           </div>
     {% else %}
-      {% if course not in mycourses %}
-              <button class="add" onclick="addClass()" value={{course}}>Add Class</button>
-      {% endif %}
+        {% if course not in mycourses %}
+        <button class="add" onclick="addClass('{{course}}')" value={{course}}>Add Class</button>
+        {% endif %}
     {% endif %}
     </br>
     {% endfor %}
     <script>
-        var c = $(".add").val();
-        function addClass() {
+        function addClass(c) {
+            //var c = $(".add").val();
             $.ajax({
                 url: "/addclass",
                 type: "POST",
