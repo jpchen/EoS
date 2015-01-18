@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from contextlib import closing
 import datetime
-import time
+import unicodedata
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
@@ -64,28 +64,24 @@ def signin():
             else:
                 session['is_prof'] = False
                 session['type'] = "Student"
-            flash('You are successfully logged in!')
+            flash('You were successfully logged in!')
             return redirect(url_for('dashboard'))
     return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
     session.pop('email', None)
-    flash('You are logged out.')
+    flash('You were logged out.')
     return redirect(url_for('index'))
 
 
-@app.route("/class/<course>", methods=['GET', 'POST'])
+@app.route("/class/<course>", methods=['GET'])
 def classes(course=None):
     if not 'email' in session:
         flash("Please log in.")
         return redirect(url_for('index'))
     else:
-        r = g.db.execute('SELECT * FROM COMMENTS').fetchall()
-        print r
-        if not r:
-            r = []
-        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=(r))
+        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
 
 @app.route("/dashboard")
 def dashboard():
@@ -123,24 +119,42 @@ def addclass():
 
 @app.route("/addcomment", methods=['POST'])
 def addcomment():
-    print "IN ADD COMMENT"
     comment = request.form['commentText']
     videoId = request.form['videoId']
-    course = request.form['currCourse']
-    commentTime = 1
-    # commentTime = time.strftime("%x") + " " + time.strftime("%X")
-    if request.method == 'POST':
-        r = g.db.execute('''INSERT INTO COMMENTS (id, usr, time, comm) \
-                  VALUES ('%s', '%s', '%d', '%s')''' % (videoId, session['name'], commentTime, comment))
-        # not safe at all
-        g.db.commit()
-        flash("Successfully posted a comment.")
-        r = g.db.execute('SELECT * FROM COMMENTS').fetchall()
-        print r
-        if not r:
-            r = []
-        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=(r))
 
+    if request.method == 'POST':
+        # r = g.db.execute('SELECT hash FROM USERS WHERE email= \"' + email + '\"')
+        # if r.fetchone()[0] == my_hash:
+        #     r2 = g.db.execute('SELECT * FROM USERS WHERE email= \"' + email + '\"')
+        #     session['email'] = email
+        #     info = r2.fetchone()
+        #     session['name'] = info[0]
+        #     session['school'] = info[3]
+        #     acct = info[4]
+        #     if acct == 1:
+        #         session['is_prof'] = 1
+        #         session['type'] = "Professor/TA"
+        #     else:
+        #         session['is_prof'] = 0
+        #         session['type'] = "Student"
+        #     flash('You were successfully logged in!')
+            return redirect(url_for('class'))
+    return redirect(url_for('index'))
+
+@app.route("/allclasses")
+def allclasses():
+    if not 'email' in session:
+        flash("Please log in.")
+        return redirect(url_for('index'))
+    else:
+        q = g.db.execute('SELECT * FROM USERS WHERE email= \"' + session['email'] + '\"')
+        session['courses'] = q.fetchone()[5]
+    r = g.db.execute('SELECT name FROM COURSES')
+    courselist = [str(x)[3:-3] for x in r.fetchall()]
+    mycourses = session['courses'].split('|')[1:-1]
+    if not len(mycourses):
+        mycourses = None
+    return render_template('showall.html', courses=courselist, mycourses=mycourses)
 
 # initializes DB
 def init_db():

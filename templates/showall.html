@@ -11,71 +11,23 @@
 
 
   <body>
+    <h1>ALL Courses </h1>
     {% block body %}{% endblock %}
-        <!-- Nav Bar -->
-  <div class="content">
-      <div class="row">
-        <div class="large-12 columns">
-          <div class="nav-bar right">
-           <ul class="button-group">
-             <li><a href="/dashboard" class="button">Home</a></li>
-             <li><a href="/logout" class="button">Log Out</a></li>
-            </ul>
-          </div>
-          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>Education. Realtime.</small></h1>
-          <hr />
-        </div>
-      </div>
-      <!-- End Nav -->
-     
-     <div class="row">
-      {% with msgs = get_flashed_messages() %}
-        {% if msgs %}
-          {%- for msg in msgs %}
-            <div class="small-4 columns">
-            <div data-alert class="alert-box info radius">
-            <!-- Your content goes here -->
-            {{ msg }}
-            <a href="#" class="close">&times;</a>
-            </div>
-            </div>
-          {% endfor -%}
-        {% endif %}
-      {% endwith %}
-    </div>
-
-<!--ADDCLASS -->
-<div class="large-6 columns">
-    
-<button onclick="addClass()">Add Class</button>
-
-<p id="addCourse"></p>
+    <div class="large-6 columns" id="myClasses">
+    {% for course in courses %}
+    <br> {{ course }} 
+    {% if not mycourses %}
+          <button onclick="myFunction()">Add Class</button>
+    {% else %}
+      {% if course not in mycourses %}
+          <button onclick="myFunction()">Add Class</button>
+      {% endif %}
+    {% endif %}
+      </br>
     <script>
-    function addClass() {
-        var course = prompt("Please enter the class name");
-        if (course != "" && course != null) {
-            //var postData = $(this).serializeArray();
-            $.ajax({
-                url : "/addclass",
-                type : "POST",
-                data : {
-                    'course' : course,
-                },
-                success : function(r){
-                    alert("Successfully added " + course + "!");
-                    console.log("Request successful");}
-            });
-            }else {
-            alert("Please enter a class name.")
+        function myFunction() {
         }
-    }
-</script>
-</div>
-
-<div class="large-6 columns" id="myClasses">
-    <h1>My Courses </h1>
-    {% for course in courses.split('|')[1:-1] %}
-    <br> <a href=/class/{{ course }}> {{ course }} </a></br>
+    </script>
     {% endfor %}
 </div>
 
