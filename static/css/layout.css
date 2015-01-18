@@ -2,7 +2,6 @@
   font-family: "Bebas";
   src: url('../font/BebasNeueBook.ttf');
 }
-
 @font-face {
   font-family: "BebasR";
   src: url('../font/BebasNeueRegular.ttf');
@@ -23,25 +22,44 @@
   font-family: "cabinB";
   src: url('../font/Cabin-Bold.otf');
 }
-
 @font-face {
   font-family: "GeoSan";
   src: url('../font/GeosansLight.ttf');
+}
+@font-face {
+  font-family: "MP";
+  src: url('../font/MYRIADPRO-REGULAR.OTF');
+}
+@font-face {
+  font-family: "MP-cond";
+  src: url('../font/MYRIADPRO-BOLDCOND.OTF');
+}
+/*@font-face {
+  font-family: "Archer";
+  src: url('../font/Archer-Semibold-Pro.otf');
+}*/
+@font-face {
+  font-family: "Archer-b";
+  src: url('../font/ArcherPro-Bold_0.otf');
 }
 
 
 body {
   /*background-image: url(../static/logo.png);*/
-  font-family: "cabin";
+  font-family: "MP";
+}
+body bold {
+  color: rgb(123, 21, 21);
+  font-family: "MP-cond";
 }
 body strong {
-  font-family: "cabinB";
+  font-family: "MP-cond";
 }
 h1 {
-  font-family: "BebasR";
+  font-family: "Archer-b";
 }
-h2, h3, h4, h5, h6 {
-  font-family: "LG";
+h2, h3, h4, h5, h6, a {
+  font-family: "MP-cond";
 }
 /*.button {
   background-color: #B4C1E0;
