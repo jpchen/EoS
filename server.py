@@ -76,7 +76,11 @@ def classes(course=None):
         flash("Please log in.")
         return redirect(url_for('index'))
     else:
-        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
+        r = g.db.execute('SELECT * FROM COMMENTS').fetchall()
+        print r
+        if not r:
+            r = []
+        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=(r))
 
 def converttoString(s):
     result = '/'
@@ -98,28 +102,20 @@ def layout():
 
 @app.route("/addcomment", methods=['POST'])
 def addcomment():
+    print "IN ADD COMMENT"
     comment = request.form['commentText']
+    print comment
     videoId = request.form['videoId']
-
+    course = request.form['currCourse']
+    print videoId
+    time = 1
     if request.method == 'POST':
-        # r = g.db.execute('SELECT hash FROM USERS WHERE email= \"' + email + '\"')
-        # if r.fetchone()[0] == my_hash:
-        #     r2 = g.db.execute('SELECT * FROM USERS WHERE email= \"' + email + '\"')
-        #     session['email'] = email
-        #     info = r2.fetchone()
-        #     session['name'] = info[0]
-        #     session['school'] = info[3]
-        #     acct = info[4]
-        #     if acct == 1:
-        #         session['is_prof'] = 1
-        #         session['type'] = "Professor/TA"
-        #     else:
-        #         session['is_prof'] = 0
-        #         session['type'] = "Student"
-        #     flash('You were successfully logged in!')
-        # render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
-        return redirect(url_for('classes'))
-    return redirect(url_for('index'))
+        r = g.db.execute('''INSERT INTO COMMENTS (id, usr, time, comm) \
+                  VALUES ('%s', '%s', '%d', '%s')''' % (videoId, session['name'], time, comment))
+        # not safe at all
+        g.db.commit()
+        flash("ADDED COMMENT")
+        return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime)
 
 
 # initializes DB

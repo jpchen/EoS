@@ -12,9 +12,9 @@ create table courses (
   id integer primary key autoincrement,
   name text not null,
   cap integer
-)
+);
 create table comments (
-  id integer primary key,
+  id text not null,
   usr text not null,
   time integer,
   comm text not null 

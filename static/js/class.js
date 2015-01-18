@@ -14,6 +14,7 @@ var postComment = function() {
 
 $(document).ready(function () {
 		// adding a wall post
+		$(document).foundation();
 	    $(".newCommentPost").submit(function (e) {
 
 	        if ($(".commentText").val() == "") {
