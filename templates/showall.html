@@ -72,11 +72,11 @@
                     <div class="small-2 columns">
                       {% if not mycourses %}
                           <div class="row">
-                              <button class="add button postfix radius success" onclick="addClass()" value={{course}}>Add Class</button>
+                              <button class="add button postfix radius success" onclick="addClass('{{course}}')" value={{course}}>Add Class</button>
                             </div>
                       {% else %}
                         {% if course not in mycourses %}
-                                <button class="add button radius small success" onclick="addClass()" value={{course}}>Add Class</button>
+                                <button class="add button radius small success" onclick="addClass('{{course}}')" value={{course}}>Add Class</button>
                         {% else %}
                                 <button class="add button radius small alert">Enrolled</button>
                         {% endif %}
@@ -94,25 +94,25 @@
               
               </br>
               {% endfor %}
-              <script>
-                  var c = $(".add").val();
-                  function addClass() {
-                      $.ajax({
-                          url: "/addclass",
-                          type: "POST",
-                          data: {
-                              'course': c,
-                              'create' : '0',
-                          },
-                          success: function (resp) {
-                              alert("Class was sucessfully added!");
-                          },
-                          error: function (error) {
-                              alert("There was an error adding the class. Please try again. " + errorThrown);
-                          }
-                      });
-                  }
-              </script>
+                  <script>
+                    function addClass(c) {
+                        //var c = $(".add").val();
+                        $.ajax({
+                            url: "/addclass",
+                            type: "POST",
+                            data: {
+                                'course': c,
+                                'create' : '0',
+                            },
+                            success: function (resp) {
+                                alert("Class was sucessfully added!");
+                            },
+                            error: function (error) {
+                                alert("There was an error adding the class. Please try again. " + errorThrown);
+                            }
+                        });
+                    }
+                </script>
           </div>
           
 
@@ -131,19 +131,21 @@
             <h5>Type of Account: {{ account }} </h5>
               <br/><div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
               <h5>Courses Enrolled: </h5>
-              {% for course in mycourses %}
-                <section class="section">
-                  <h5 class="title"><a href=/class/{{ course }}> {{ course }} </a></h5>
-                </section>
-              {% endfor %}
+              {% if mycourses %}
+                {% for course in mycourses %}
+                  <section class="section">
+                    <h5 class="title"><a href=/class/{{ course }}> {{ course }} </a></h5>
+                  </section>
+                {% endfor %}
+              {% endif %}
 
               {% if session.is_prof %}
-              <br><button class="button radius success" onclick="addClass()">Create a New Class</button>
+              <br><button class="button radius success" onclick="createClass()">Create a New Class</button>
               {% endif %}
             </div>
 
                 <script>
-                function addClass() {
+                function createClass() {
                   var course = prompt("Please enter the class name");
                   if (course != "" && course != null) {
                       //var postData = $(this).serializeArray();
