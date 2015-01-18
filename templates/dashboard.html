@@ -22,7 +22,7 @@
              <li><a href="/logout" class="button">Log Out</a></li>
             </ul>
           </div>
-          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>It's awesome.</small></h1>
+          <h1><img src="{{ url_for('static', filename='logo.png') }}" style="width: 60px;"/>EoS <small>Education. Realtime.</small></h1>
           <hr />
         </div>
       </div>
@@ -44,6 +44,33 @@
       {% endwith %}
     </div>
 
+<!--ADDCLASS -->
+    <div class="large-6 columns">
+    
+<button onclick="addClass()">Add Class</button>
+
+<p id="addCourse"></p>
+    <script>
+    function addClass() {
+        var course = prompt("Please enter the class name");
+        if (course != "") {
+            //var postData = $(this).serializeArray();
+            $.ajax({
+                url : "/addclass",
+                type : "POST",
+                data : {
+                    'course' : course,
+                },
+                success : function(r){console.log("Success");}
+            });
+            //document.getElementById("addCourse").innerHTML =
+            //"Hello " + course + "! How are you today?";
+            }else {
+            alert("Please enter a class name.")
+        }
+    }
+    </script>
+    </div>
       <!-- Main Feed -->
         <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
         <div class="large-6 columns">

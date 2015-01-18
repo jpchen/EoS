@@ -13,7 +13,9 @@ ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    if not 'email' in session:
+        return render_template('index.html')
+    return redirect(url_for('dashboard'))
 
 # CREATE LOG IN AND OUT STUFF
 @app.route("/newuser", methods=['POST'])
@@ -95,6 +97,18 @@ def dashboard():
 @app.route("/layout")
 def layout():
     return render_template('layout.html')
+
+@app.route("/addclass", methods=['POST'])
+def addclass():
+    name = request.form['course']
+    #TODO class capacity
+    cap=100
+    r = g.db.execute('''INSERT INTO COURSES (name, cap) \
+                  VALUES ('%s', '%d')''' % (name, cap))
+    # not safe at all
+    g.db.commit()
+    flash('Successfully added '+ name + "!")
+    return redirect(url_for('dashboard'))
 
 @app.route("/addcomment", methods=['POST'])
 def addcomment():
