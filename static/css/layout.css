@@ -134,7 +134,7 @@ h2, h3, h4, h5, h6, a {
         }
 
         .hero{
-          background: url(http://dlwallhd.com/wp-content/uploads/Northern-Lights-And-Stars-Wallpaper-HD-Resolution.jpg);
+          background: url(http://hoy.contents.s3.amazonaws.com/images/uploads/68303/world-wide-web.png);
           background-size: cover;
           box-shadow: inset 0px 0px 0 2000px rgba(0,0,0,0.15);
           height: 100%;
@@ -154,7 +154,7 @@ h2, h3, h4, h5, h6, a {
 
         @media only screen and (min-width: 64.063em) {
           .intro-text{
-            padding-top: 18%;
+            padding-top: 25%;
           }
         }
 
