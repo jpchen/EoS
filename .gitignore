@@ -1,3 +1,7 @@
 *.swp
 *~
 *.pyc
+venv
+pycrypto-2.6.1
+.pyc
+
