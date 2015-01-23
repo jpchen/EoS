@@ -1,15 +1,11 @@
+========================
 EoS: Education. Realtime.
 =========================
+http://eosplus.herokuapp.com/
 
+EoS is a educational video platform that allows professors and TAs to post videos of lectures, office hours, review sessions, and allows students to view course materials and easily collaborate through an integrated discussion system. EoS uses the [Ziggeo API] (http://ziggeo.com) to create a hybrid of a Piazza-like discussion environment and a video sharing platform.  Professors can easily manage their content, and students can easily navigate between classes they are enrolled in. With the advent of online education such as Coursera and edX, we believe that video engagement is the next step towards making education globally accessible.
 
+#Development
 Deployment: virtualenv --no-site-packages venv
 git push heroku master
 
-Ziggeo Python Server SDK
-=========================
-
-Ziggeo API (http://ziggeo.com) allows you to integrate video recording and playback with only
-two lines of code in your site, service or app. This is the Python Server SDK repository. It's open source,
-so if you want to improve on it, feel free to add a pull request.
-
-Copyright (c) 2014 Ziggeo
