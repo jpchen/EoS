@@ -2,6 +2,9 @@ EoS: Education. Realtime.
 =========================
 
 
+Deployment: virtualenv --no-site-packages venv
+git push heroku master
+
 Ziggeo Python Server SDK
 =========================
 

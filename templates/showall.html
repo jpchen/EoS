@@ -78,7 +78,7 @@
                         {% if course not in mycourses %}
                                 <button class="add button radius small success" onclick="addClass('{{course}}')" value={{course}}>Add Class</button>
                         {% else %}
-                                <button class="add button radius small alert">Enrolled</button>
+                                <button class="add button radius small alert" onclick="rmClass('{{course}}')" value={{course}}>Remove Class</button>
                         {% endif %}
                       {% endif %}
 
@@ -109,6 +109,44 @@
                             },
                             error: function (error) {
                                 alert("There was an error adding the class. Please try again. " + errorThrown);
+                            }
+                        });
+                    }
+                </script>
+                <script>
+                    function addClass(c) {
+                        //var c = $(".add").val();
+                        $.ajax({
+                            url: "/addclass",
+                            type: "POST",
+                            data: {
+                                'course': c,
+                                'create' : '0',
+                            },
+                            success: function (resp) {
+                                alert("Class was sucessfully added!");
+                            },
+                            error: function (error) {
+                                alert("There was an error adding the class. Please try again. " + errorThrown);
+                            }
+                        });
+                    }
+                </script>
+
+                  <script>
+                    function rmClass(c) {
+                        //var c = $(".add").val();
+                        $.ajax({
+                            url: "/rmclass",
+                            type: "POST",
+                            data: {
+                                'course': c,
+                            },
+                            success: function (resp) {
+                                alert("Class was sucessfully removed!");
+                            },
+                            error: function (error) {
+                                alert("There was an error removing the class. Please try again. " + errorThrown);
                             }
                         });
                     }

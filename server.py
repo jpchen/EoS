@@ -83,7 +83,6 @@ def classes(course=None):
         return redirect(url_for('index'))
     else:
         r = g.db.execute('SELECT * FROM COMMENTS').fetchall()
-        print r
         if not r:
             r = []
         return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=r)
@@ -109,8 +108,6 @@ def addclass():
     q = g.db.execute('SELECT courses FROM USERS WHERE email= \"' + email + '\"')
     courselist = q.fetchone()[0]
     course = request.form['course']
-    print "HERE"
-    print course
     isCreate = request.form['create']
     courselist += course + "|"
     #TODO class capacity
@@ -128,6 +125,24 @@ def addclass():
         return redirect(url_for('dashboard'))
     return redirect(url_for('allclasses'))
 
+@app.route("/rmclass", methods=['POST'])
+def rmclass():
+    name = session['name']
+    email = session['email']
+    q = g.db.execute('SELECT courses FROM USERS WHERE email= \"' + email + '\"')
+    courselist = q.fetchone()[0]
+    course = request.form['course']
+    print 'course '+course
+    print courselist
+    if course in courselist:
+        courselist = courselist.replace(course+'|', '')
+    print courselist
+    r = g.db.execute('UPDATE USERS SET courses= \"' + courselist + '\" WHERE email= \"' + email + '\"')
+    # not safe at all
+    g.db.commit()
+    flash('Successfully removed '+ name + "!")
+    return redirect(url_for('allclasses'))
+
 @app.route("/addcomment", methods=['POST'])
 def addcomment():
     comment = request.form['commentText']
@@ -142,7 +157,6 @@ def addcomment():
         g.db.commit()
         flash("Successfully posted a comment.")
         r = g.db.execute('SELECT * FROM COMMENTS').fetchall()
-        print r
         if not r:
             r = []
         return render_template('class.html', ziggeo=ziggeo, course=course, datetime=datetime, comments=(r))
