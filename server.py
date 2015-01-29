@@ -2,6 +2,7 @@ import sqlite3
 from Ziggeo import Ziggeo
 from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
+from flask.ext.basicauth import BasicAuth
 from contextlib import closing
 import datetime
 import unicodedata
@@ -9,6 +10,8 @@ import time
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_object('__init__')
+
+basic_auth = BasicAuth(app)
 
 # My key, so don't you use this. seriously
 ziggeo = Ziggeo("61113f2c9913e0daecefe88965a37dac", "d6e6a6620c4ae5f36c3a47dfac6fc274", "11cd57eafb2262c7829983d76bcff0c6")
@@ -175,6 +178,12 @@ def allclasses():
     if not len(mycourses):
         mycourses = None
     return render_template('showall.html', email=session['email'], name=session['name'], school=session['school'], account=session['type'], is_prof = session['is_prof'], courses=courselist, mycourses=mycourses)
+
+@app.route("/allusers")
+@basic_auth.required
+def allusers():
+    r = g.db.execute('SELECT * from USERS').fetchall()
+    return render_template('allusers.html', data=r)
 
 # initializes DB
 def init_db():
