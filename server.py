@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, g, redirect, url_for, \
              abort, flash, session
 from flask.ext.basicauth import BasicAuth
 from contextlib import closing
+from users import User
 import datetime
 import unicodedata
 import time
@@ -26,12 +27,14 @@ def index():
 @app.route("/newuser", methods=['POST'])
 def new_user():
     name = request.form['name']
-    my_hash = request.form['password']
     email = request.form['email']
+    myhash = request.form['password']
+    user = User(email, request.form['password'])
+    print user.pw_hash
     school = request.form['school']
     prof = int(request.form['type'])
     r = g.db.execute('''INSERT INTO USERS (name, hash, email, school, prof, courses) \
-                  VALUES ('%s', '%s', '%s', '%s', '%d', '%s')''' % (name, my_hash, email, school, prof, "|"))
+                  VALUES ('%s', '%s', '%s', '%s', '%d', '%s')''' % (name, myhash, email, school, prof, "|"))
     # not safe at all
     g.db.commit()
     # result = g.db.execute("SELECT * FROM USERS")

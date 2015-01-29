@@ -3,7 +3,7 @@ drop table if exists comments;
 drop table if exists courses;
 create table users (
   name text not null,
-  hash text not null,
+  user text not null,
   email text not null,
   school text not null,
   prof integer not null,
